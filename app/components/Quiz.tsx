@@ -151,7 +151,7 @@ export default function Quiz() {
 
     return (
         <div>
-            <div className='w-150 h-150 bg-optimalightgreen p-10 rouded-xl flex flex-col items-center mb-10 mt-10 rounded-xl border-5 border-optimalimegreen'>
+            <div className='bg-optimalightgreen p-10 rouded-xl flex flex-col items-center mb-10 mt-10 rounded-xl border-5 border-optimalimegreen w-100 h-150 md:w-150 lg:w-200'>
                 <img
                 className='max-w-50 max-h-20 mt-2'
                 src={questions[question].logo}
@@ -163,33 +163,41 @@ export default function Quiz() {
                     {questions[question].company}
                 </h1>
                 </div>
-                <div className='h-20 bg-optimalimegreen rounded-lg mb-5 p-5 flex items-center justify-center'>
+                <div className='h-20 w-full bg-optimalimegreen rounded-lg mb-5 p-5 flex items-center justify-center border-5 border-optimalimegreen'>
                 <span
-                className='text-black font-medium text-lg mb-6'
+                className='text-black font-medium text-lg'
                 >
                     {questions[question].question}
                 </span>
                 </div>
                 <div className='h-50 text-black font-medium text-lg mb-6 w-full bg-optimalightorange p-4 rounded-lg flex flex-col align-center justify-evenly border-5 border-optimaorange'>
                         <div className='flex justify-between items-center'>
-                            <label htmlFor='option1'>{questions[question].option1}</label>
-                            <input id='option1' value={questions[question].option1} onChange={(e) => setGuess(e.target.value)} name={questions[question].key.toString()} type='radio' className='size-5' />
+                            <label htmlFor='option1' className='w-full bg-optimalightorange flex justify-between items-center'>{questions[question].option1}
+                                <div className='w-8 h-8 bg-optimalightgreen rounded-lg border-2 border-optimalimegreen flex items-center justify-center'>{guess == questions[question].option1 ? "X" : ""}</div>
+                            </label>
+                            <input id='option1' value={questions[question].option1} onChange={(e) => setGuess(e.target.value)} name={questions[question].key.toString()} type='radio' className='size-5 hidden' />
                         </div>
+                        <div className='w-full h-1 bg-optimaorange'></div>
                         <div className='flex justify-between items-center'>
-                            <label htmlFor='option2'>{questions[question].option2}</label>
-                            <input id="option2" value={questions[question].option2} onChange={(e) => setGuess(e.target.value)} name={questions[question].key.toString()} type='radio' className='size-5' />
+                            <label htmlFor='option2' className='w-full bg-optimalightorange flex justify-between items-center'>{questions[question].option2}
+                                <div className='w-8 h-8 bg-optimalightgreen rounded-lg border-2 border-optimalimegreen flex items-center justify-center'>{guess == questions[question].option2 ? "X" : ""}</div>
+                            </label>
+                            <input id="option2" value={questions[question].option2} onChange={(e) => setGuess(e.target.value)} name={questions[question].key.toString()} type='radio' className='size-5 hidden' />
                         </div>
+                        <div className='w-full h-1 bg-optimaorange'></div>
                         <div className='flex justify-between items-center'>
-                            <label htmlFor='option3'>{questions[question].option3}</label>
-                            <input id="option3" value={questions[question].option3} onChange={(e) => (setGuess(e.target.value))} name={questions[question].key.toString()} type='radio' className='size-5' />
+                            <label htmlFor='option3' className='w-full bg-optimalightorange flex justify-between items-center'>{questions[question].option3}
+                                <div className='w-8 h-8 bg-optimalightgreen rounded-lg border-2 border-optimalimegreen flex items-center justify-center'>{guess == questions[question].option3 ? "X" : ""}</div>
+                            </label>
+                            <input id="option3" value={questions[question].option3} onChange={(e) => (setGuess(e.target.value))} name={questions[question].key.toString()} type='radio' className='size-5 hidden' />
                         </div>
                 </div>
                 <div className='text-black font-medium text-lg w-full bg-optimalightorange p-4 rounded-lg flex justify-between h-25 items-center border-5 border-optimaorange'>
-                    <button id='previous' onClick={previousQuestion} className='bg-red-500 w-30 h-15 rounded-lg hover:bg-red-600 active:bg-red-700'>Previous</button>
+                    <button id='previous' onClick={previousQuestion} className='bg-red-500 rounded-lg hover:bg-red-600 active:bg-red-700 w-24 h-12 md:w-30 md:h-15'>Previous</button>
                     <p>{question + 1 + " / " + "10"}</p>
                     <span>score: {score}</span>
-                    {!(question== 9)?<button id='next' onClick={nextQuestion} className='bg-green-500 w-30 h-15 rounded-lg hover:bg-green-600 active:bg-green-700'>Next</button>:
-                    <button id='submit' onClick={submit} className='bg-green-500 w-30 h-15 rounded-lg hover:bg-green-600 active:bg-green-700'>Submit</button>
+                    {!(question== 9)?<button id='next' onClick={nextQuestion} className='bg-green-500 rounded-lg hover:bg-green-600 active:bg-green-700 w-24 h-12 md:w-30 md:h-15'>Next</button>:
+                    <button id='submit' onClick={submit} className='bg-green-500 rounded-lg hover:bg-green-600 active:bg-green-700 w-24 h-12 md:w-30 md:h-15'>Submit</button>
                     }
                 </div>
             </div>
