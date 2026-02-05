@@ -165,12 +165,12 @@ export default function Quiz() {
                 </div>
                 <div className='h-20 w-full bg-optimalimegreen rounded-lg mb-5 p-5 flex items-center justify-center border-5 border-optimalimegreen'>
                 <span
-                className='text-black font-medium text-lg'
+                className='text-black font-medium text-sm md:text-lg'
                 >
                     {questions[question].question}
                 </span>
                 </div>
-                <div className='h-50 text-black font-medium text-lg mb-6 w-full bg-optimalightorange p-4 rounded-lg flex flex-col align-center justify-evenly border-5 border-optimaorange'>
+                <div className='h-50 text-black font-medium mb-6 w-full bg-optimalightorange p-4 rounded-lg flex flex-col align-center justify-evenly border-5 border-optimaorange text-sm md:text-lg'>
                         <div className='flex justify-between items-center'>
                             <label htmlFor='option1' className='w-full bg-optimalightorange flex justify-between items-center'>{questions[question].option1}
                                 <div className='w-8 h-8 bg-optimalightgreen rounded-lg border-2 border-optimalimegreen flex items-center justify-center'>{guess == questions[question].option1 ? "X" : ""}</div>
@@ -192,7 +192,7 @@ export default function Quiz() {
                             <input id="option3" value={questions[question].option3} onChange={(e) => (setGuess(e.target.value))} name={questions[question].key.toString()} type='radio' className='size-5 hidden' />
                         </div>
                 </div>
-                <div className='text-black font-medium text-lg w-full bg-optimalightorange p-4 rounded-lg flex justify-between h-25 items-center border-5 border-optimaorange'>
+                <div className='text-black font-medium w-full bg-optimalightorange p-4 rounded-lg flex justify-between h-25 items-center border-5 border-optimaorange text-sm md:text-lg'>
                     <button id='previous' onClick={previousQuestion} className='bg-red-500 rounded-lg hover:bg-red-600 active:bg-red-700 w-24 h-12 md:w-30 md:h-15'>Previous</button>
                     <p>{question + 1 + " / " + "10"}</p>
                     <span>score: {score}</span>
