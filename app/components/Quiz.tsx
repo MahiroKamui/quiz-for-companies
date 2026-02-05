@@ -151,6 +151,21 @@ export default function Quiz() {
 
     return (
         <div>
+        <header className="flex justify-center items-center">
+        <div className="flex gap-3">
+            <a href="https://programutvecklare.com/" target="_blank">
+            <img src="/logo.webp" alt="Logo" className="w-9 h-auto pt-3" />
+            </a>
+            <div className="flex flex-col">
+                <a href="https://optimaedu.fi/sv/" target="_blank">
+                <img src="/optima.webp" alt="Logo" className="w-20 h-auto" />
+                </a>
+                <a href="https://programutvecklare.com/" target="_blank">
+                <p className="text-sm hover:underline">Programutvecklare</p>
+                </a>
+            </div>
+        </div>
+        </header>
             <div className='bg-optimalightgreen p-10 rouded-xl flex flex-col items-center mb-10 mt-10 rounded-xl border-5 border-optimalimegreen w-100 h-150 md:w-150 lg:w-200'>
                 <img
                 className='max-w-50 max-h-20 mt-2'
