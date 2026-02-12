@@ -8,8 +8,7 @@ const questions = [
         key: 1,
         logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1280px-Google_2015_logo.svg.png",
         difficulty: "easy",
-        
-        question: "Google originally started as a research project at which university?",
+        question: "Google startade ursprungligen som ett forskningsprojekt vid vilket universitet?",
         answer: "Stanford University",
         option1: "Harvard University",
         option2: "Stanford University",
@@ -17,10 +16,9 @@ const questions = [
     },
     {
         key: 2,
-        logo: "",
+        logo: "next.svg",
         difficulty: "easy",
-        company: "Microsoft",
-        question: "Microsoft was founded in which year?",
+        question: "När grundades Microsoft?",
         answer: "1975",
         option1: "1980",
         option2: "1990",
@@ -28,10 +26,9 @@ const questions = [
     },
     {
         key: 3,
-        logo: "",
+        logo: "next.svg",
         difficulty: "easy",
-        company: "Meta (Facebook)",
-        question: "Meta (Facebook) originally launched under what name?",
+        question: "Meta (Facebook) lanserades ursprungligen under vilket namn?",
         answer: "TheFacebook",
         option1: "TheFacebook",
         option2: "FaceConnect",
@@ -39,10 +36,9 @@ const questions = [
     },
     {
         key: 4,
-        logo: "",
+        logo: "next.svg",
         difficulty : "medium",
-        company: "Amazon",
-        question: "Amazon Web Services (AWS) was launched in which year?", 
+        question: "När lanserades Amazon Web Services (AWS)?", 
         answer: "2006",
         option1: "2006",
         option2: "2004",
@@ -50,10 +46,9 @@ const questions = [
     },
     {
         key: 5,
-        logo: "",
+        logo: "next.svg",
         difficulty : "medium",
-        company: "Netflix",
-        question: "Netflix uses which primary programming language for its backend services?",
+        question: "Vilket huvudsakligt programspråk använder Netflix för sina backend-tjänster?",
         answer: "Java",
         option1: "Python",
         option2: "Java",
@@ -61,10 +56,9 @@ const questions = [
     },
     {
         key: 6,
-        logo: "",
+        logo: "next.svg",
         difficulty : "medium",
-        company: "Adobe",
-        question: "Adobe is the creator of which widely used document file format?",
+        question: "Adobe är skaparen av vilket allmänt använt dokumentfilformat?",
         answer: "PDF (Portable Document Format)",
         option1: "DOCX",
         option2: "PDF (Portable Document Format)",
@@ -72,10 +66,9 @@ const questions = [
     },
     {
         key: 7,
-        logo: "",
+        logo: "next.svg",
         difficulty : "medium",
-        company: "IBM",
-        question: "IBM is known for pioneering which early programming language?",
+        question: "IBM är känt för att ha varit pionjärer för vilket tidigt programspråk?",
         answer: "FORTRAN",
         option1: "COBOL",
         option2: "FORTRAN",
@@ -83,71 +76,106 @@ const questions = [
     },
     {
         key: 8,
-        logo: "",
+        logo: "next.svg",
         difficulty : "hard",
-        company: "Oracle",
-        question: "Oracle is primarily known for which type of enterprise software?",
-        answer: "Database Management Systems",
-        option1: "Customer Relationship Management (CRM)",
-        option2: "Enterprise Resource Planning (ERP)",
-        option3: "Database Management Systems",
+        question: "Oracle är främst känt för vilken typ av företagsprogramvara?",
+        answer: "Databashanteringssystem",
+        option1: "Kundrelationshantering (CRM)",
+        option2: "Affärssystem (ERP)",
+        option3: "Databashanteringssystem",
     },
     {
         key: 9,
-        logo: "",
+        logo: "next.svg",
         difficulty : "hard",
-        company: "Salesforce",
-        question: "Salesforce popularized what cloud computing business model?",
-        answer: "Software as a Service (SaaS)",
-        option1: "Infrastructure as a Service (IaaS)",
-        option2: "Platform as a Service (PaaS)",
-        option3: "Software as a Service (SaaS)",
+        question: "Vilken affärsmodell för molntjänster populariserade Salesforce?",
+        answer: "Programvara som en tjänst (SaaS)",
+        option1: "Infrastruktur som en tjänst (IaaS)",
+        option2: "Plattform som en tjänst (PaaS)",
+        option3: "Programvara som en tjänst (SaaS)",
     },
     {
         key: 10,
-        logo: "",
+        logo: "next.svg",
         difficulty : "hard",
-        company: "SAP",
-        question: "SAP provides enterprise software mainly for managing what business functions?",
-        answer: "Enterprise Resource Planning (ERP)",
-        option1: "Enterprise Resource Planning (ERP)",
-        option2: "Supply Chain Management (SCM)",
-        option3: "Customer Relationship Management (CRM)",
+        question: "SAP tillhandahåller företagsprogramvara främst för att hantera vilka affärsfunktioner?",
+        answer: "Affärssystem (ERP)",
+        option1: "Affärssystem (ERP)",
+        option2: "Leverantörskedjehantering (SCM)",
+        option3: "Kundrelationshantering (CRM)",
     }
     
 ]
 
 
 export default function Quiz() {
-    let [score, setScore] = useState(0)
-
+    let [answers, setAnswers] = useState<string[]>(Array(questions.length).fill(""))
 
     let [question, setQuestion] = useState(0)
     let [guess, setGuess] = useState("")
+    let [submitted, setSubmitted] = useState(false)
+
+    let score = answers.reduce((acc, a, idx) => (a === questions[idx].answer ? acc + 1 : acc), 0)
 
     function previousQuestion() {
-        
+        const newIndex = Math.max(0, question - 1)
+        setQuestion(newIndex)
+        setGuess(answers[newIndex] || "")
     }
 
     function nextQuestion() {
-        console.log(guess)
-        if(guess == questions[question].answer || ! (guess=="")) {
-            setScore(score+1)
-            console.log(score)
-        }
-        if(guess=="") {
-            
-        }
+        if (!answers[question]) return
+        const newIndex = Math.min(questions.length - 1, question + 1)
+        setQuestion(newIndex)
+        setGuess(answers[newIndex] || "")
     }
 
     function submit() {
-        
+        if (submitted) return
+        if (!answers[question]) return
+        setSubmitted(true)
     }
 
+    function retry() {
+        setSubmitted(false)
+        setAnswers(Array(questions.length).fill(""))
+        setQuestion(0)
+        setGuess("")
+    }
 
-
-
-
+    if (submitted) {
+        return (
+        <div>
+        <header className="flex justify-center items-center">
+        <div className="flex gap-3">
+            <a href="https://programutvecklare.com/" target="_blank">
+            <img src="/logo.webp" alt="Logo" className="w-9 h-auto pt-3" />
+            </a>
+            <div className="flex flex-col">
+                <a href="https://optimaedu.fi/sv/" target="_blank">
+                <img src="/optima.webp" alt="Logo" className="w-20 h-auto" />
+                </a>
+                <a href="https://programutvecklare.com/" target="_blank">
+                <p className="text-sm hover:underline">Programutvecklare</p>
+                </a>
+            </div>
+        </div>
+        </header>
+            <div className="flex items-center justify-center bg-white font-sans">
+                <div className="bg-optimalightgreen p-5 flex flex-col items-center mb-10 mt-10 rounded-xl border-5 border-optimalimegreen text-black text-lg font-medium w-100 h-100">
+                    <div className='h-20 w-full bg-optimalimegreen rounded-lg mb-5 p-5 flex items-center justify-center border-5 border-optimalimegreen'>
+                    <h1 className="text-2xl font-bold">Quiz Resultat</h1>
+                    </div>
+                    <div className='h-50 mb-6 w-full bg-optimalightorange p-4 rounded-lg flex items-center justify-evenly flex-col border-5 border-optimaorange text-lg'>
+                        <p>Du är <strong>{Math.round((score / questions.length) * 100)}</strong>% Programmerare</p>
+                        <p>{score} av {questions.length} rätt</p>
+                    </div>
+                    <button onClick={retry} className="bg-green-500 rounded-lg hover:bg-green-600 active:bg-green-700 w-full h-25">Försök igen</button>
+                </div>
+            </div>
+            </div>
+        )
+    }
 
     return (
         <div>
@@ -166,53 +194,50 @@ export default function Quiz() {
             </div>
         </div>
         </header>
-            <div className='bg-optimalightgreen p-10 rouded-xl flex flex-col items-center mb-10 mt-10 rounded-xl border-5 border-optimalimegreen w-100 h-150 md:w-150 lg:w-200'>
-                <img
-                className='max-w-50 max-h-20 mt-2'
-                src={questions[question].logo}
-                />
-                <div>
-                <h1
-                className='text-black font-bold text-2xl mb-4 mt-4'
-                >
-                    {questions[question].company}
-                </h1>
+            <div className='bg-optimalightgreen rouded-xl flex flex-col items-center mb-10 mt-10 rounded-xl border-5 border-optimalimegreen p-5 w-100 h-150 md:w-150 lg:w-200 md:p-10'>
+                <div className='h-20 w-50'>
+                    <img
+                    className='w-50 h-20 mt-2 object-contain'
+                    src={questions[question].logo}
+                    alt="Company Logo"
+                    />
                 </div>
-                <div className='h-20 w-full bg-optimalimegreen rounded-lg mb-5 p-5 flex items-center justify-center border-5 border-optimalimegreen'>
+                <div className='min-h-20 max-h-20 h-20 w-full bg-optimalimegreen rounded-lg mb-5 p-5 flex items-center justify-center border-5 border-optimalimegreen mt-8'>
                 <span
                 className='text-black font-medium text-sm md:text-lg'
                 >
                     {questions[question].question}
                 </span>
                 </div>
-                <div className='h-50 text-black font-medium mb-6 w-full bg-optimalightorange p-4 rounded-lg flex flex-col align-center justify-evenly border-5 border-optimaorange text-sm md:text-lg'>
-                        <div className='flex justify-between items-center'>
-                            <label htmlFor='option1' className='w-full bg-optimalightorange flex justify-between items-center'>{questions[question].option1}
-                                <div className='w-8 h-8 bg-optimalightgreen rounded-lg border-2 border-optimalimegreen flex items-center justify-center'>{guess == questions[question].option1 ? "X" : ""}</div>
-                            </label>
-                            <input id='option1' value={questions[question].option1} onChange={(e) => setGuess(e.target.value)} name={questions[question].key.toString()} type='radio' className='size-5 hidden' />
-                        </div>
+                <div className='text-black font-medium mb-6 w-full bg-optimalightorange p-4 rounded-lg flex flex-col align-center justify-evenly border-5 border-optimaorange h-60 text-sm md:text-lg md:h-50'>
+                    <div className='flex justify-between items-center'>
+                        <label htmlFor='option1' className='w-full bg-optimalightorange flex justify-between items-center'>{questions[question].option1}
+                        <div className='w-8 h-8 bg-optimalightgreen rounded-lg border-2 border-optimalimegreen flex items-center justify-center'>{guess == questions[question].option1 ? "X" : ""}</div>
+                        </label>
+                        <input id='option1' value={questions[question].option1} onChange={(e) => { const v = e.target.value; const next = [...answers]; next[question] = v; setAnswers(next); setGuess(v); }} name={questions[question].key.toString()} type='radio' className='size-5 hidden' checked={answers[question] === questions[question].option1} disabled={submitted} />
+                    </div>
                         <div className='w-full h-1 bg-optimaorange'></div>
-                        <div className='flex justify-between items-center'>
-                            <label htmlFor='option2' className='w-full bg-optimalightorange flex justify-between items-center'>{questions[question].option2}
-                                <div className='w-8 h-8 bg-optimalightgreen rounded-lg border-2 border-optimalimegreen flex items-center justify-center'>{guess == questions[question].option2 ? "X" : ""}</div>
-                            </label>
-                            <input id="option2" value={questions[question].option2} onChange={(e) => setGuess(e.target.value)} name={questions[question].key.toString()} type='radio' className='size-5 hidden' />
-                        </div>
+                    <div className='flex justify-between items-center'>
+                        <label htmlFor='option2' className='w-full bg-optimalightorange flex justify-between items-center'>{questions[question].option2}
+                        <div className='w-8 h-8 bg-optimalightgreen rounded-lg border-2 border-optimalimegreen flex items-center justify-center'>{guess == questions[question].option2 ? "X" : ""}</div>
+                        </label>
+                        <input id="option2" value={questions[question].option2} onChange={(e) => { const v = e.target.value; const next = [...answers]; next[question] = v; setAnswers(next); setGuess(v); }} name={questions[question].key.toString()} type='radio' className='size-5 hidden' checked={answers[question] === questions[question].option2} disabled={submitted} />
+                    </div>
                         <div className='w-full h-1 bg-optimaorange'></div>
-                        <div className='flex justify-between items-center'>
-                            <label htmlFor='option3' className='w-full bg-optimalightorange flex justify-between items-center'>{questions[question].option3}
-                                <div className='w-8 h-8 bg-optimalightgreen rounded-lg border-2 border-optimalimegreen flex items-center justify-center'>{guess == questions[question].option3 ? "X" : ""}</div>
-                            </label>
-                            <input id="option3" value={questions[question].option3} onChange={(e) => (setGuess(e.target.value))} name={questions[question].key.toString()} type='radio' className='size-5 hidden' />
-                        </div>
+                    <div className='flex justify-between items-center'>
+                        <label htmlFor='option3' className='w-full bg-optimalightorange flex justify-between items-center'>{questions[question].option3}
+                        <div className='w-8 h-8 bg-optimalightgreen rounded-lg border-2 border-optimalimegreen flex items-center justify-center'>{guess == questions[question].option3 ? "X" : ""}</div>
+                        </label>
+                        <input id="option3" value={questions[question].option3} onChange={(e) => { const v = e.target.value; const next = [...answers]; next[question] = v; setAnswers(next); setGuess(v); }} name={questions[question].key.toString()} type='radio' className='size-5 hidden' checked={answers[question] === questions[question].option3} disabled={submitted} />
+                    </div>
                 </div>
                 <div className='text-black font-medium w-full bg-optimalightorange p-4 rounded-lg flex justify-between h-25 items-center border-5 border-optimaorange text-sm md:text-lg'>
-                    <button id='previous' onClick={previousQuestion} className='bg-red-500 rounded-lg hover:bg-red-600 active:bg-red-700 w-24 h-12 md:w-30 md:h-15'>Previous</button>
-                    <p>{question + 1 + " / " + "10"}</p>
-                    <span>score: {score}</span>
-                    {!(question== 9)?<button id='next' onClick={nextQuestion} className='bg-green-500 rounded-lg hover:bg-green-600 active:bg-green-700 w-24 h-12 md:w-30 md:h-15'>Next</button>:
-                    <button id='submit' onClick={submit} className='bg-green-500 rounded-lg hover:bg-green-600 active:bg-green-700 w-24 h-12 md:w-30 md:h-15'>Submit</button>
+                    <button id='previous' onClick={previousQuestion} className='bg-red-500 rounded-lg hover:bg-red-600 active:bg-red-700 w-24 h-12 md:w-30 md:h-15'>Föregående</button>
+                    <p>{question + 1 + " / " + questions.length}</p>
+                    {!(question== 9)?
+                        <button id='next' onClick={nextQuestion} disabled={answers[question] === ""} className={'bg-green-500 rounded-lg w-24 h-12 md:w-30 md:h-15 ' + (answers[question] === "" ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-600 active:bg-green-700')}>Nästa</button>
+                        :
+                        <button id='submit' onClick={submit} disabled={submitted || answers[question] === ""} className={'bg-green-500 rounded-lg w-24 h-12 md:w-30 md:h-15 ' + ((submitted || answers[question] === "") ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-600 active:bg-green-700')}>{submitted ? 'slutfört' : 'Slutför'}</button>
                     }
                 </div>
             </div>
