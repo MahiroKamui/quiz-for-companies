@@ -1,7 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
-
+import React, { useState, useEffect } from 'react'
 
 const questions = [
     {
@@ -16,7 +15,7 @@ const questions = [
     },
     {
         key: 2,
-        logo: "next.svg",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Microsoft_logo_%282012%29.svg/3840px-Microsoft_logo_%282012%29.svg.png",
         difficulty: "easy",
         question: "När grundades Microsoft?",
         answer: "1975",
@@ -26,7 +25,7 @@ const questions = [
     },
     {
         key: 3,
-        logo: "next.svg",
+        logo: "https://1000logos.net/wp-content/uploads/2016/11/Facebook-Logo.png",
         difficulty: "easy",
         question: "Meta (Facebook) lanserades ursprungligen under vilket namn?",
         answer: "TheFacebook",
@@ -36,7 +35,7 @@ const questions = [
     },
     {
         key: 4,
-        logo: "next.svg",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/960px-Amazon_logo.svg.png",
         difficulty : "medium",
         question: "När lanserades Amazon Web Services (AWS)?", 
         answer: "2006",
@@ -46,7 +45,7 @@ const questions = [
     },
     {
         key: 5,
-        logo: "next.svg",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/e/ea/Netflix_Logomark.png",
         difficulty : "medium",
         question: "Vilket huvudsakligt programspråk använder Netflix för sina backend-tjänster?",
         answer: "Java",
@@ -56,7 +55,7 @@ const questions = [
     },
     {
         key: 6,
-        logo: "next.svg",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Adobe_Corporate_logo.svg/960px-Adobe_Corporate_logo.svg.png",
         difficulty : "medium",
         question: "Adobe är skaparen av vilket allmänt använt dokumentfilformat?",
         answer: "PDF (Portable Document Format)",
@@ -66,7 +65,7 @@ const questions = [
     },
     {
         key: 7,
-        logo: "next.svg",
+        logo: "https://pngimg.com/d/ibm_PNG19658.png",
         difficulty : "medium",
         question: "IBM är känt för att ha varit pionjärer för vilket tidigt programspråk?",
         answer: "FORTRAN",
@@ -76,7 +75,7 @@ const questions = [
     },
     {
         key: 8,
-        logo: "next.svg",
+        logo: "https://blockchain-expo.com/wp-content/uploads/2024/01/Oracle-Logo.png",
         difficulty : "hard",
         question: "Oracle är främst känt för vilken typ av företagsprogramvara?",
         answer: "Databashanteringssystem",
@@ -86,7 +85,7 @@ const questions = [
     },
     {
         key: 9,
-        logo: "next.svg",
+        logo: "https://www.salesforce.com/news/wp-content/uploads/sites/3/2020/08/SFDO-Logo-2020-RGB-Vert-FullColor.png?w=1218",
         difficulty : "hard",
         question: "Vilken affärsmodell för molntjänster populariserade Salesforce?",
         answer: "Programvara som en tjänst (SaaS)",
@@ -96,7 +95,7 @@ const questions = [
     },
     {
         key: 10,
-        logo: "next.svg",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/SAP_2011_logo.svg/1280px-SAP_2011_logo.svg.png",
         difficulty : "hard",
         question: "SAP tillhandahåller företagsprogramvara främst för att hantera vilka affärsfunktioner?",
         answer: "Affärssystem (ERP)",
@@ -114,6 +113,14 @@ export default function Quiz() {
     let [question, setQuestion] = useState(0)
     let [guess, setGuess] = useState("")
     let [submitted, setSubmitted] = useState(false)
+    let [mounted, setMounted] = useState(false)
+
+    useEffect(() => {
+        setMounted(true)
+        if (localStorage.getItem("Submitted")) {
+            setSubmitted(true)
+        }
+    }, [])
 
     let score = answers.reduce((acc, a, idx) => (a === questions[idx].answer ? acc + 1 : acc), 0)
 
@@ -134,14 +141,11 @@ export default function Quiz() {
         if (submitted) return
         if (!answers[question]) return
         setSubmitted(true)
+        localStorage.setItem("Submitted", "true")
+        localStorage.setItem("score", score.toString())
     }
 
-    function retry() {
-        setSubmitted(false)
-        setAnswers(Array(questions.length).fill(""))
-        setQuestion(0)
-        setGuess("")
-    }
+    if (!mounted) return null
 
     if (submitted) {
         return (
@@ -162,15 +166,14 @@ export default function Quiz() {
         </div>
         </header>
             <div className="flex items-center justify-center bg-white font-sans">
-                <div className="bg-optimalightgreen p-5 flex flex-col items-center mb-10 mt-10 rounded-xl border-5 border-optimalimegreen text-black text-lg font-medium w-100 h-100">
+                <div className="bg-optimalightgreen p-10 flex flex-col items-center mb-10 mt-10 rounded-xl border-5 border-optimalimegreen text-black text-lg font-medium w-100 h-100">
                     <div className='h-20 w-full bg-optimalimegreen rounded-lg mb-5 p-5 flex items-center justify-center border-5 border-optimalimegreen'>
-                    <h1 className="text-2xl font-bold">Quiz Resultat</h1>
+                    <h1 className="text-2xl font-bold">Quiz Slutfört</h1>
                     </div>
-                    <div className='h-50 mb-6 w-full bg-optimalightorange p-4 rounded-lg flex items-center justify-evenly flex-col border-5 border-optimaorange text-lg'>
-                        <p>Du är <strong>{Math.round((score / questions.length) * 100)}</strong>% Programmerare</p>
-                        <p>{score} av {questions.length} rätt</p>
+                    <div className='h-55 w-full bg-optimalightorange p-4 rounded-lg flex items-center justify-evenly flex-col border-5 border-optimaorange text-lg'>
+                        <p>Du är <strong>{Math.round((parseInt(localStorage.getItem("score") || "0") / questions.length) * 100)}</strong>% Programmerare</p>
+                        <p>{localStorage.getItem("score") || "0"} av {questions.length} rätt</p>
                     </div>
-                    <button onClick={retry} className="bg-green-500 rounded-lg hover:bg-green-600 active:bg-green-700 w-full h-25">Försök igen</button>
                 </div>
             </div>
             </div>
@@ -197,7 +200,7 @@ export default function Quiz() {
             <div className='bg-optimalightgreen rouded-xl flex flex-col items-center mb-10 mt-10 rounded-xl border-5 border-optimalimegreen p-5 w-100 h-150 md:w-150 lg:w-200 md:p-10'>
                 <div className='h-20 w-50'>
                     <img
-                    className='w-50 h-20 mt-2 object-contain'
+                    className='w-50 h-20 object-contain'
                     src={questions[question].logo}
                     alt="Company Logo"
                     />
@@ -237,7 +240,7 @@ export default function Quiz() {
                     {!(question== 9)?
                         <button id='next' onClick={nextQuestion} disabled={answers[question] === ""} className={'bg-green-500 rounded-lg w-24 h-12 md:w-30 md:h-15 ' + (answers[question] === "" ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-600 active:bg-green-700')}>Nästa</button>
                         :
-                        <button id='submit' onClick={submit} disabled={submitted || answers[question] === ""} className={'bg-green-500 rounded-lg w-24 h-12 md:w-30 md:h-15 ' + ((submitted || answers[question] === "") ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-600 active:bg-green-700')}>{submitted ? 'slutfört' : 'Slutför'}</button>
+                        <button id='submit' onClick={submit} disabled={submitted || answers[question] === ""} className={'bg-green-500 rounded-lg w-24 h-12 md:w-30 md:h-15 ' + ((submitted || answers[question] === "") ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-600 active:bg-green-700')}>{submitted ? 'Slutfört' : 'Slutför'}</button>
                     }
                 </div>
             </div>
