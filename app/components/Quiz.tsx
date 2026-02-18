@@ -243,7 +243,7 @@ export default function Quiz() {
                             </label>
                             <input id="option2" value={questions[question].option2} onChange={(e) => radioChange(e)} name={questions[question].key.toString()} type='radio' className='size-5 hidden' />
                         </div>
-                        <div className='w-full h-1 bg-optimaorange'></div>
+                        <div className='w-full h-1 bg-optimaorange'></div> 
                         <div className='flex justify-between items-center'>
                             <label htmlFor='option3' className='w-full bg-optimalightorange flex justify-between items-center'>{questions[question].option3}
                                 <div className='w-8 h-8 bg-optimalightgreen rounded-lg border-2 border-optimalimegreen flex items-center justify-center'>{guess == questions[question].option3 ? "X" : ""}</div>
