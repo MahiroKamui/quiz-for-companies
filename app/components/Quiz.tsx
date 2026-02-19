@@ -129,8 +129,9 @@ export default function Quiz() {
 
 
     useEffect(() => {
-    setGuess(answers[question] || "")
-    }, [question])
+        setGuess(answers[question] || "")
+        console.log(answers, question)
+        }, [question])
 
 
     function checkAnswer() {
@@ -163,6 +164,7 @@ export default function Quiz() {
         if (question < questions.length - 1) {
             setQuestion(question + 1)
         }
+        setGuess("")
     }
 
 
@@ -179,8 +181,9 @@ export default function Quiz() {
         
         setAnswers(prev => ({
             ...prev,
-            [question]: value
+            [question]: value,
         }))
+        e.target.checked = false
 }
 
 
@@ -212,7 +215,7 @@ export default function Quiz() {
         <div id='quizContainer'>
             <div id='quiz' className='bg-optimalightgreen p-10 rouded-xl flex flex-col items-center mb-10 mt-10 rounded-xl border-5 border-optimalimegreen w-100 h-150 md:w-150 lg:w-200'>
                 <img
-                className=' h-20 mt-2'
+                className=' min-h-20 mt-2'
                 src={questions[question].logo}
                 />
                 <div>
@@ -237,7 +240,7 @@ export default function Quiz() {
                             <input id='option1' value={questions[question].option1} onChange={(e) => radioChange(e)} name={questions[question].key.toString()} type='radio' className='size-5 hidden' />
                         </div>
                         <div className='w-full h-1 bg-optimaorange'></div>
-                        <div className='flex justify-between items-center'>
+                        <div className='flex justify-between items-center'>  
                             <label htmlFor='option2' className='w-full bg-optimalightorange flex justify-between items-center'>{questions[question].option2}
                                 <div className='w-8 h-8 bg-optimalightgreen rounded-lg border-2 border-optimalimegreen flex items-center justify-center'>{guess == questions[question].option2 ? "X" : ""}</div>
                             </label>
